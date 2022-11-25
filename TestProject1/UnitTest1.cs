@@ -9,7 +9,6 @@ using DemoUnitTest.Controllers;
 
 namespace TestProject1
 {
-                //-------------xUnit Test--------------//
     public class UnitTest1
     {
         private static DbContextOptions<OneTableContext> dbContextOptions = new DbContextOptionsBuilder<OneTableContext>()
@@ -22,7 +21,7 @@ namespace TestProject1
         {
             context = new OneTableContext(dbContextOptions);
             context.Database.EnsureCreated();
-            SeedDatabase();
+            //SeedDatabase();
             userController= new UserController(context);
         }
 
@@ -51,30 +50,40 @@ namespace TestProject1
             context.SaveChanges();
         }
 
+        public void Dispose()
+        {
+            context.Database.EnsureDeleted();
+            context.Dispose();
+        }
+
         [Fact]
         public void GetAll_Test()
         {
-            
+            SeedDatabase();
+
             var result = userController.UserList();
             
             var items = Assert.IsType<List<TblUser>>(result);
             
             Assert.Equal(3, items.Count);
+            Dispose();
         }
         
         [Fact]
         public void GetAll_Salary_Test()
         {
+            SeedDatabase();
 
             var result = userController.SalaryList();
             
             var items = Assert.IsType<List<Salary>>(result);
 
             Assert.Equal(4, items.Count);
+            Dispose();
         }
-        ~UnitTest1()
-        {
-            context.Database.EnsureDeleted();
-        }
+        //~UnitTest1()
+        //{
+        //    context.Database.EnsureDeleted();
+        //}
     }
 }
