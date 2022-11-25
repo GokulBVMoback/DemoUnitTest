@@ -66,5 +66,13 @@ namespace TestProject2
 
             Assert.AreEqual(4, result.Count);
         }
+
+        [Test]
+        public void GetAll_Merged()
+        {
+            var result = userController.MergeList();
+
+            Assert.AreEqual(4, result.Count);
+        }
     }
 }

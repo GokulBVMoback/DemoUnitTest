@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using DemoUnitTest.Models;
 using DemoUnitTest.Controllers;
+using Microsoft.AspNetCore.Routing;
 //using Microsoft.AspNetCore.Mvc;
 //using Microsoft.Extensions.Logging.Abstractions;
 //using Microsoft.AspNetCore.Http;
@@ -81,9 +82,17 @@ namespace TestProject1
             Assert.Equal(4, items.Count);
             Dispose();
         }
-        //~UnitTest1()
-        //{
-        //    context.Database.EnsureDeleted();
-        //}
+
+        [Fact]
+        public void GetAll_Merged()
+        {
+            SeedDatabase();
+            var result = userController.MergeList();
+
+            var items = Assert.IsType<List<MergedTable>>(result);
+
+
+            Assert.Equal(4, items.Count);
+        }
     }
 }
